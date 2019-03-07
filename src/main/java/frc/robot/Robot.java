@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
 	public static SendableChooser<Integer> position_chooser = new SendableChooser<Integer>();
 	public static SendableChooser<AutonomousTarget> autonomous_target_chooser = new SendableChooser<AutonomousTarget>();
 	public static SendableChooser<AutonomousTarget> secondary_autonomous_target_chooser = new SendableChooser<AutonomousTarget>();
+
+	public static double speedLimitFactor = 0.4;
 	
 	public void robotPeriodic() {
 		SmartDashboard.putNumber("Current Gyro Angle", gyro.getAngle());
@@ -51,6 +53,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Right Encoder", Robot.drivetrain.getRightEncoderPosition());
 		SmartDashboard.putNumber("Lift Encoder", Robot.lift.getPosition());
 		SmartDashboard.putBoolean("Claw Open", claw.getOpen());
+
+		SmartDashboard.putNumber("Speed Limit Factor", speedLimitFactor);
 	}
 
 	public void enabledInit() {
@@ -145,6 +149,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		//update the speed limiter
+		speedLimitFactor = SmartDashboard.getNumber("Speed Limit Factor", speedLimitFactor);
+
 		Scheduler.getInstance().run();
 		robotPeriodic();
 		

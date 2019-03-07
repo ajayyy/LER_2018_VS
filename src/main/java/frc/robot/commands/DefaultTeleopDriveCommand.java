@@ -22,7 +22,10 @@ public class DefaultTeleopDriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.setPercentVoltage(-Robot.oi.l_joy.getY(), -Robot.oi.r_joy.getY());
+        double right = -Robot.oi.l_joy.getY() * Robot.speedLimitFactor;
+        double left = -Robot.oi.r_joy.getY() * Robot.speedLimitFactor;
+
+    	Robot.drivetrain.setPercentVoltage(right, left);
     }
 
     // Make this return true when this Command no longer needs to run execute()
